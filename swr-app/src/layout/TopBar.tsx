@@ -1,5 +1,5 @@
 import { useRef,  } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCategories } from '../hooks/data.hook';
 import { useSWRConfig } from 'swr';
 import config from "../config";
@@ -11,7 +11,7 @@ export default function TopBar() {
 
   const { mutate } = useSWRConfig();
 
-  const { categories, isLoading, error } = useCategories();
+  const { categories, isLoading, error, isValidating } = useCategories();
 
   const randomBooksUrls = `${config.apiUrl}/books/random-books?count=12`;
 
@@ -24,7 +24,7 @@ export default function TopBar() {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarColor01">
-            {isLoading && <img src="/img/loading.gif" /> }
+            {(isLoading || isValidating) && <img src="/img/loading.gif" /> }
             <ul className="navbar-nav me-auto">
               {Array.isArray(categories) && categories.map(cat => 
                 <li className="nav-item active" key={cat.categoryId}>

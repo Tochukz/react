@@ -5,12 +5,12 @@ import Book from '../components/book';
 
 export default function Category() {
   const param: any = useParams();
-  const { books, isLoading} = useBookCategory(param.categoryId);
+  const { books, isLoading, isValidating} = useBookCategory(param.categoryId);
    
   return (
     <Base>
-      <div className="row">
-        { isLoading && 
+      <div className="row mt-4">
+        { (isLoading || isValidating) && 
           <div className="col-sm-12 text-center mt-4">
             <img src="/img/loading.gif" />
           </div> 

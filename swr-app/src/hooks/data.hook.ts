@@ -10,34 +10,37 @@ const swrOptions = {
  // refreshInterval: 10000,
 }
 
-export const useRamdomBooks = (count: number) => {
+export const useRandomBooks = (count: number) => {
   const url = `${config.apiUrl}/books/random-books?count=${count}`;
   const { data, error, isValidating, mutate } = useSWR(url, fetcher, swrOptions);
   return {
     books: data,
     error,
     isLoading: !data,
+    isValidating
   }
 }
 
 export const useCategories = () => {
   const url = `${config.apiUrl}/categories`;
-  const { data, error} = useSWR(url);
+  // This will work without passing a fetcher function only if the calling component is a direct child of <SWRConfig>
+  // and <SWRConfig have a defined fetcher in it's global config.
+  const { data, error, isValidating} = useSWR(url);
   return {
     categories: data,
     error, 
     isLoading: !data,
+    isValidating,
   }
 }
 
 export const useBookCategory = (categoryId: number) => {
-  //const url = `${config.apiUrl}/books`;
   const url = `${config.apiUrl}/books/category/${categoryId}`;
-  const { data, error} = useSWR(url);
-  debugger;
+  const { data, error, isValidating} = useSWR(url, fetcher);
   return {
     books: data, 
     error,
     isLoading: !data,
+    isValidating,
   }
 }

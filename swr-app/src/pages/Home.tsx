@@ -1,16 +1,20 @@
 import Base from '../layout/Base';
 
 
-import { useRamdomBooks } from '../hooks/data.hook';
+import { useRandomBooks } from '../hooks/data.hook';
 import Book from '../components/book';
 
 export default function Home() {
-  const {books, error, isLoading} = useRamdomBooks(12);
+  const {books, error, isLoading, isValidating} = useRandomBooks(12);
 
   return (
     <Base>
       <div className="row mt-4">
-        {isLoading && <p>Loading...</p>} 
+        { (isLoading || isValidating) && 
+          <div className="col-sm-12 text-center mt-4">
+            <img src="/img/loading.gif" />
+          </div> 
+        } 
         {
           Array.isArray(books) && books.map(book => <Book key={book.bookId} book={book} />)
         }
